@@ -2,6 +2,8 @@
 import { use, useEffect, useState } from 'react';
 import { MapPin, Users, Clock, Star, ArrowLeft, ArrowRight, Ticket } from 'lucide-react';
 import Link from 'next/link';
+import { authClient } from '../../lib/auth-client'
+import toast from 'react-hot-toast';
 
 function LineArt({ facility_type }) {
   // Added vectorEffect so strokes stay 1.5px regardless of how big the SVG scales
@@ -42,9 +44,8 @@ function LineArt({ facility_type }) {
 
 export default function FacilityDetailPage({params}) {
   const {id} = use(params)
-  // 1. Initialized to null instead of []
+  const {data: session} = authClient.useSession();
   const [FULL_FACILITY, setFULL_FACILITY] = useState(null);
-  // 2. Added explicit loading state
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function FacilityDetailPage({params}) {
       } catch (error) {
         console.error("Failed to fetch facility:", error);
       } finally {
-        setIsLoading(false); // Ensure loading is disabled whether fetch succeeds or fails
+        setIsLoading(false);
       }
     }
     getFacility();
@@ -66,12 +67,41 @@ export default function FacilityDetailPage({params}) {
   const [selectedSlot, setSelectedSlot] = useState('');
   const [hours, setHours] = useState(1);
   const [date, setDate] = useState('');
+
+  const handleBooking = async () => {
+    const Data = {
+      facility_id: id,
+      user_email: session?.user?.email,
+      booking_date: date,
+      time_slot: selectedSlot,
+      hours: hours,
+      status: 'pending',
+      total_price: total,
+      facility_name: FULL_FACILITY.name,
+      location: FULL_FACILITY.location
+    }
+    console.log(Data)
+    try{
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
+        method: "POST",
+        headers: {
+          'content-type': "application/json"
+        },
+        body: JSON.stringify(Data)
+      })
+      const result = await res.json();
+      if (result.status == 200) {
+        toast.success("Your booking place successfully.")
+      }
+    }
+    catch{
+      toast.error("Something went wrong. Please try again later.")
+    }
+  }
   
-  // Safe calculation for total (defaults to 0 if price is undefined)
   const pricePerHour = FULL_FACILITY?.price_per_hour || 0;
   const total = pricePerHour * hours;
 
-  // 3. Early return for loading state to prevent UI flashes/crashes
   if (isLoading) {
     return (
       <div style={{ background: 'var(--color-paper)', minHeight: '100vh'}} className="flex items-center justify-center">
@@ -80,7 +110,6 @@ export default function FacilityDetailPage({params}) {
     );
   }
 
-  // Handle case where fetch completes but no data is found
   if (!FULL_FACILITY) {
     return (
       <div style={{ background: 'var(--color-paper)', minHeight: '100vh'}} className="flex items-center justify-center flex-col gap-4">
@@ -93,7 +122,6 @@ export default function FacilityDetailPage({params}) {
   return (
     <div style={{ background: 'var(--color-paper)', minHeight: '100vh'}}>
 
-      {/* Back nav */}
       <div className="pt-28 pb-6 px-6 lg:px-10 mx-auto max-w-7xl">
         <Link href="/facilities" className="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-300 hover:-translate-x-1"
           style={{ color: 'var(--color-sage)' }}>
@@ -106,7 +134,6 @@ export default function FacilityDetailPage({params}) {
 
           <div className="lg:col-span-2">
 
-            {/* Hero image (gradient placeholder with line art) */}
             <div style={{ position:'relative', overflow:'hidden', height:'20rem', background:FULL_FACILITY?.grad, borderRadius:'2rem' }}>
               {LineArt({facility_type: FULL_FACILITY?.facility_type})}
               <div className="absolute bottom-6 left-6">
@@ -122,7 +149,6 @@ export default function FacilityDetailPage({params}) {
               </div>
             </div>
 
-            {/* Name + location */}
             <div className="mt-7 mb-5">
               <h1 className="text-3xl lg:text-4xl" style={{ fontFamily:'var(--font-display)', color:'var(--color-pine)', lineHeight:1.1 }}>{FULL_FACILITY?.name}</h1>
               <p className="mt-2 flex items-center gap-1.5 text-sm" style={{ color:'var(--color-sage)' }}>
@@ -130,7 +156,6 @@ export default function FacilityDetailPage({params}) {
               </p>
             </div>
 
-            {/* Quick stats strip */}
             <div className="flex flex-wrap gap-4 mb-8">
               {[
                 [Users, FULL_FACILITY?.capacity, 'Capacity'],
@@ -150,59 +175,40 @@ export default function FacilityDetailPage({params}) {
               ))}
             </div>
 
-            {/* Description */}
             <div className="mb-8">
               <h2 className="text-xl mb-3" style={{ fontFamily:'var(--font-display)', color:'var(--color-pine)' }}>About this venue</h2>
               <p className="text-sm leading-relaxed" style={{ color:'var(--color-sage)' }}>{FULL_FACILITY?.description}</p>
             </div>
 
-            {/* Amenities (Fixed the optional chaining here as well in case you uncomment it) */}
-            {/* <div>
-              <h2 className="text-xl mb-4" style={{ fontFamily:'var(--font-display)', color:'var(--color-pine)' }}>Amenities</h2>
-              <div className="flex flex-wrap gap-2">
-                {FULL_FACILITY?.amenities?.map(a => (
-                  <span key={a} className="rounded-full px-4 py-2 text-xs font-semibold"
-                    style={{ background:'var(--color-court-soft)', color:'var(--color-pine)', border:'1px solid var(--color-border)' }}>
-                    {a}
-                  </span>
-                ))}
-              </div>
-            </div> */}
+            
           </div>
 
-          {/* ── Right: Booking form ── */}
           <div className="lg:col-span-1">
             <div className="sticky top-28">
               <div style={{ borderRadius:'1.75rem', boxShadow:'var(--shadow-lg)', overflow:'hidden' }}>
 
-                {/* Pass header */}
                 <div className="p-5" style={{ background:FULL_FACILITY?.grad, position:'relative' }}>
                   <p style={{ fontFamily:'var(--font-mono)', fontSize:'10px', fontWeight:700, letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--color-court)' }}>Book Your Pass</p>
                   <p className="mt-1 text-lg" style={{ fontFamily:'var(--font-display)', color:'var(--color-paper)' }}>{FULL_FACILITY?.name}</p>
                   <div className="mt-3 flex items-baseline gap-1">
-                    {/* 4. Safe optional chaining and toLocaleString for price */}
                     <span style={{ fontSize:'1.75rem', fontFamily:'var(--font-display)', color:'var(--color-paper)' }}>৳{FULL_FACILITY?.price_per_hour?.toLocaleString() || 0}</span>
                     <span style={{ fontSize:'12px', color:'rgba(241,242,234,0.65)' }}>/hr</span>
                   </div>
                 </div>
 
-                {/* Perforation */}
                 <div style={{ position:'relative', borderTop:'2px dashed var(--color-border)', background:'var(--color-surface)' }}>
                   <span style={{ position:'absolute', left:-9, top:-9, width:18, height:18, borderRadius:'50%', background:'var(--color-paper)' }}/>
                   <span style={{ position:'absolute', right:-9, top:-9, width:18, height:18, borderRadius:'50%', background:'var(--color-paper)' }}/>
                 </div>
 
-                {/* Form */}
                 <div className="p-5 flex flex-col gap-4" style={{ background:'var(--color-surface)' }}>
 
-                  {/* Facility name (auto-filled) */}
                   <div>
                     <label className="block text-xs font-semibold mb-2" style={{ fontFamily:'var(--font-mono)', color:'var(--color-pine)', letterSpacing:'0.06em' }}>FACILITY</label>
                     <input type="text" value={FULL_FACILITY?.name || ''} readOnly className="w-full rounded-xl px-4 py-2.5 text-sm"
                       style={{ background:'var(--color-paper-dark)', border:'1.5px solid var(--color-border)', color:'var(--color-sage)', cursor:'not-allowed' }} />
                   </div>
 
-                  {/* Date */}
                   <div>
                     <label className="block text-xs font-semibold mb-2" style={{ fontFamily:'var(--font-mono)', color:'var(--color-pine)', letterSpacing:'0.06em' }}>BOOKING DATE</label>
                     <input type="date" value={date} onChange={e=>setDate(e.target.value)} className="w-full rounded-xl px-4 py-2.5 text-sm outline-none"
@@ -211,11 +217,9 @@ export default function FacilityDetailPage({params}) {
                       onBlur={e=>e.target.style.borderColor='var(--color-border)'} />
                   </div>
 
-                  {/* Time slot */}
                   <div>
                     <label className="block text-xs font-semibold mb-2" style={{ fontFamily:'var(--font-mono)', color:'var(--color-pine)', letterSpacing:'0.06em' }}>TIME SLOT</label>
                     <div className="grid grid-cols-3 gap-1.5">
-                      {/* 5. Chained optional operator for array mapping */}
                       {FULL_FACILITY?.slots?.map(slot => (
                         <button key={slot} type="button" onClick={()=>setSelectedSlot(slot)}
                           className="rounded-lg px-2 py-1.5 text-[10px] font-semibold transition-all duration-200"
@@ -231,7 +235,6 @@ export default function FacilityDetailPage({params}) {
                     </div>
                   </div>
 
-                  {/* Hours */}
                   <div>
                     <label className="block text-xs font-semibold mb-2" style={{ fontFamily:'var(--font-mono)', color:'var(--color-pine)', letterSpacing:'0.06em' }}>HOURS</label>
                     <div className="flex items-center gap-3">
@@ -243,10 +246,8 @@ export default function FacilityDetailPage({params}) {
                     </div>
                   </div>
 
-                  {/* Price breakdown */}
                   <div className="rounded-xl p-4" style={{ background:'var(--color-paper-dark)' }}>
                     <div className="flex justify-between text-xs mb-2" style={{ color:'var(--color-muted)', fontFamily:'var(--font-mono)' }}>
-                      {/* Safe toLocaleString calls */}
                       <span>৳{FULL_FACILITY?.price_per_hour?.toLocaleString() || 0} × {hours}h</span>
                       <span>৳{total.toLocaleString()}</span>
                     </div>
@@ -256,8 +257,7 @@ export default function FacilityDetailPage({params}) {
                     </div>
                   </div>
 
-                  {/* Confirm */}
-                  <button type="button" className="group w-full inline-flex items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                  <button type="button" onClick={handleBooking} className="group w-full inline-flex items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5"
                     style={{ background:'var(--color-pine)', color:'var(--color-paper)', boxShadow:'var(--shadow-md)' }}>
                     Confirm Booking
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

@@ -1,8 +1,9 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import { Menu, X, Ticket, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { authClient } from '../app/lib/auth-client'
+import { AnimatePresence, motion } from 'framer-motion';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -14,6 +15,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -24,6 +26,13 @@ export default function Navbar() {
 
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const { data: session } = authClient.useSession()
+  const user = session?.user;
+
+  const logOut = async () => {
+    await authClient.signOut();
+  }
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-10">
@@ -57,13 +66,60 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden lg:block">
-            <Link
-              href="/login"
-              className="group inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-semibold text-paper shadow-sm"
-            >
-              Login
-              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+            {!user ?
+              <Link
+                href="/login"
+                className="group inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-semibold text-paper shadow-sm"
+              >
+                Login
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link> :
+              <div className="relative inline-block">
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="rounded-full border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-100"
+                >
+                  Profile
+                </button>
+
+                <AnimatePresence>
+                  {open && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -20, scale: 0.9,transformOrigin: 'top right', }}
+                      animate={{ opacity: 1, y: 0, scale: 1,transformOrigin: 'top right', }}
+                      exit={{ opacity: 0, y: -20, scale: 0.5,transformOrigin: 'top right', }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 400,
+                        damping: 30,
+                      }}
+                      className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg"
+                    >
+                      <Link
+                        href="/add-facility"
+                        className="block px-4 py-3 text-sm hover:bg-gray-100"
+                      >
+                        Add Facilities
+                      </Link>
+
+                      <Link
+                        href="/my-bookings"
+                        className="block px-4 py-3 text-sm hover:bg-gray-100"
+                      >
+                        My Bookings
+                      </Link>
+
+                      <button
+                        onClick={logOut}
+                        className="block w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50"
+                      >
+                        Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            }
           </div>
 
           <button

@@ -25,4 +25,8 @@ export const auth = betterAuth({
       requireLocalEmailVerified: false,
     },
   },
+    advanced: {
+    cookiePrefix: "sportnest",
+  },
+
 });

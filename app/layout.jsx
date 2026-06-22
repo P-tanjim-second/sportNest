@@ -1,6 +1,7 @@
 import { Instrument_Serif, Hanken_Grotesk, Space_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from '../components/Navbar';
+import { Toaster } from 'react-hot-toast';
 
 const instrumentSerif = Instrument_Serif({
   weight: '400',
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
       <body className={`${instrumentSerif.variable} ${hankenGrotesk.variable} ${spaceMono.variable} bg-grain antialiased`}>
         <Navbar />
         <main>{children}</main>
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );

@@ -5,6 +5,11 @@ const nextConfig = {
       { protocol: 'https', hostname: 'i.ibb.co' },
       { protocol: 'https', hostname: 'i.imgur.com' },
       { protocol: 'https', hostname: 'postimage.org' },
+      { 
+        protocol: 'https',
+        hostname: '**',
+        pathname: '**',
+      },
     ],
   },
 };

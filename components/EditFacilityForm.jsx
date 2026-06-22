@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { X, Plus } from 'lucide-react';
 
 const DEFAULT_SLOTS = ['06:00-07:00', '07:00-08:00', '08:00-09:00', '16:00-17:00', '17:00-18:00', '18:00-19:00', '19:00-20:00', '20:00-21:00', '21:00-22:00'];
-const SPORT_TYPES = ['Football', 'Badminton', 'Swimming', 'Tennis', 'Basketball', 'Cricket', 'Volleyball', 'Table Tennis'];
+const SPORT_TYPES = ['Football', 'Badminton', 'Swimming', 'Tennis', 'Basketball', 'Cricket', 'Volleyball', 'Table_Tennis'];
 
 const INP_BASE = {
   width: '100%', borderRadius: 12, padding: '11px 14px', fontSize: '13px',

@@ -2,6 +2,7 @@ import { Instrument_Serif, Hanken_Grotesk, Space_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from '../components/Navbar';
 import { Toaster } from 'react-hot-toast';
+import Footer from '../components/Footer';
 
 const instrumentSerif = Instrument_Serif({
   weight: '400',
@@ -36,6 +37,8 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main>{children}</main>
         <Toaster position="bottom-right" />
+        <Footer />
+
       </body>
     </html>
   );

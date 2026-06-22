@@ -5,12 +5,51 @@ import { authClient } from '../lib/auth-client';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-const SPORT_TYPES = ['Football', 'Badminton', 'Swimming', 'Tennis', 'Basketball', 'Cricket', 'Volleyball', 'Table Tennis'];
+const SPORT_TYPES = ['Football', 'Badminton', 'Swimming', 'Tennis', 'Basketball', 'Cricket', 'Volleyball', 'Table_Tennis'];
 const DEFAULT_SLOTS = ['06:00-07:00', '07:00-08:00', '08:00-09:00', '17:00-18:00', '18:00-19:00', '19:00-20:00', '20:00-21:00'];
 
-const gradientOptions = [
-  { grad: 'linear-gradient(155deg,#16332A,#234A3B)', accent: '#D4E157' },
-  { grad: 'linear-gradient(155deg,#1A3A4A,#2A5A6B)', accent: '#A8D8EA' }
+const facilityThemes = [
+  {
+    facility_type: 'Football',
+    grad: 'linear-gradient(155deg,#16332A,#234A3B)',
+    accent: '#D4E157',
+  },
+  {
+    facility_type: 'Badminton',
+    grad: 'linear-gradient(155deg,#1A3A4A,#2A5A6B)',
+    accent: '#A8D8EA',
+  },
+  {
+    facility_type: 'Swimming',
+    grad: 'linear-gradient(155deg,#1A4A6B,#2A6B8A)',
+    accent: '#93E4DC',
+  },
+  {
+    facility_type: 'Tennis',
+    grad: 'linear-gradient(155deg,#2D4A35,#3D6347)',
+    accent: '#D4E157',
+  },
+  {
+    facility_type: 'Basketball',
+    grad: 'linear-gradient(155deg,#6B2A0E,#C2502E)',
+    accent: '#F4C89A',
+  },
+  {
+    facility_type: 'Cricket',
+    grad: 'linear-gradient(155deg,#3A2A1A,#5C4A2A)',
+    accent: '#D4C09A',
+  },
+  {
+    facility_type: 'Table_Tennis',
+    grad: 'linear-gradient(155deg,#1A3A4A,#2A5A6B)',
+    accent: '#A8D8EA',
+  },
+  {
+    facility_type: 'Volleyball',
+    grad: 'linear-gradient(155deg,#6B2A0E,#C2502E)',
+    accent: '#F4C89A',
+  },
+
 ];
 
 const label = (txt, hint) => (
@@ -40,7 +79,7 @@ export default function AddFacilityPage() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    const randomGradient = gradientOptions[Math.floor(Math.random() * gradientOptions.length)];
+    const themeGradient = facilityThemes.find(theme => theme.facility_type === data.facility_type);
 
     const facility = {
       ...data,
@@ -49,7 +88,7 @@ export default function AddFacilityPage() {
       booking_count: 0,
       rating: 0,
       status: 'active',
-      ...randomGradient,
+      ...themeGradient,
       created_at: new Date().toString(),
     };
     console.log(facility)

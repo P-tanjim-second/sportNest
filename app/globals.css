@@ -64,7 +64,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 }
 
 /* Highlighter-marker effect behind accent words in headlines */
-.text-highlight { position: relative; display: inline-block; }
+.text-highlight { position: relative; display: inline-block; isolation: isolate; }
 .text-highlight::before {
   content: '';
   position: absolute;

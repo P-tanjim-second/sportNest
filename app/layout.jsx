@@ -2,7 +2,7 @@ import './globals.css';
 import Navbar from '../components/Navbar';
 
 export const metadata = {
-  title: 'SportNest — Your All-Access Pass to Play',
+  title: 'SportNest - Your All-Access Pass to Play',
   description: 'Book football turfs, badminton courts, swimming lanes, and tennis courts near you.',
 };
 

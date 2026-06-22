@@ -86,7 +86,7 @@ export default function AddFacilityPage() {
       slots,
       owner_email: user?.email,
       booking_count: 0,
-      rating: 0,
+      rating: Number((Math.random() * 4 + 1).toFixed(1)),
       status: 'active',
       ...themeGradient,
       created_at: new Date().toString(),

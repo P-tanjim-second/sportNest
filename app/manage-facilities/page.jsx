@@ -159,9 +159,9 @@ export default function ManageFacilitiesPage() {
         <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[
             ['Total Venues', facilities.length],
-            ['Active', 0],
+            ['Active', facilities.length],
             ['Total Bookings', 0],
-            ['Avg Rating', 0],
+            ['Avg Rating', facilities.reduce((acc, f) => acc + f.rating, 0) / facilities.length || 0],
           ].map(([l, v]) => (
             <div key={l} className="rounded-2xl p-5" style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
               <p style={{ fontSize: '1.7rem', fontFamily: 'var(--font-display)', color: 'var(--color-pine)' }}>{v}</p>

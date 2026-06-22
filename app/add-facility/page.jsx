@@ -88,6 +88,7 @@ export default function AddFacilityPage() {
       booking_count: 0,
       rating: Number((Math.random() * 4 + 1).toFixed(1)),
       status: 'active',
+      reviews: Math.floor(Math.random() * 200),
       ...themeGradient,
       created_at: new Date().toString(),
     };

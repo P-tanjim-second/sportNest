@@ -104,7 +104,7 @@ export default function Hero() {
                 style={{
                   borderRadius: '1.25rem',
                   boxShadow:
-                    '0 40px 88px rgba(22,51,42,0.24), 0 12px 28px rgba(22,51,42,0.12), 0 2px 6px rgba(22,51,42,0.07)',
+                    '0 40px 90px rgba(22,51,42,0.05), 0 12px 28px rgba(22,51,42,0.12), 0 2px 6px rgba(22,51,42,0.07)',
                 }}
               >
 

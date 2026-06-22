@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Search, SlidersHorizontal, MapPin, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 // const ALL_FACILITIES = [
 //   { id: 1, facility_type: 'Football', name: 'Downtown Turf Arena', location: 'Gulshan, Dhaka', price_per_hour: '৳2,500', rating: 4.9, reviews: 128, capacity: '22 Players', slots: '6 AM-11 PM', grad: 'linear-gradient(155deg,#16332A,#234A3B)', accent: '#D4E157' },
@@ -249,10 +250,10 @@ export default function FacilitiesPage() {
                         <span style={{ fontSize: '1.2rem', fontFamily: 'var(--font-display)', color: 'var(--color-pine)' }}>{f.price_per_hour}</span>
                         <span style={{ fontSize: '11px', color: 'var(--color-muted)' }}>/hr</span>
                       </div>
-                      <a href={`/facilities/${f._id}`} className="group/btn inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                      <Link href={`/facilities/${f._id}`} facility={f} className="group/btn inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-300 hover:-translate-y-0.5"
                         style={{ background: 'var(--color-pine)', color: 'var(--color-paper)', boxShadow: 'var(--shadow-sm)' }}>
                         Book Now <ArrowRight className="h-3 w-3" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

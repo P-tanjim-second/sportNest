@@ -1,0 +1,14 @@
+{
+  "pages": {},
+  "app": {
+    "[project]/assignment9/assignment/app/login/page": [
+      "static/media/7ebf22b5a21034f8-s.p.3j3877k49yy0l.woff2",
+      "static/media/e41d5df559864f9e-s.p.1g73gv09-xcb6.woff2",
+      "static/media/c47649aa31f9e140-s.p.3lxpqujs87tck.woff2",
+      "static/media/dc0d9adbac686440-s.p.3cik_s2si-ft-.woff2",
+      "static/media/8d05cfa5faa8406c-s.p.1s123piy9_v1m.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pagesUsingSizeAdjust": false
+}

@@ -48,7 +48,7 @@ export default function AddFacilityPage() {
       owner_email: user?.email,
       booking_count: 0,
       rating: 0,
-      status: 'pending',
+      status: 'active',
       ...randomGradient,
       created_at: new Date().toString(),
     };
@@ -63,7 +63,7 @@ export default function AddFacilityPage() {
       const result = await res.json();
       if (result.status === 200) {
         toast.success('Facility published successfully!');
-        // router.push('/manage-facilities');
+        router.push('/manage-facilities');
       } else {
         toast.error('Something went wrong. Please try again.');
       }

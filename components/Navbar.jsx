@@ -7,8 +7,8 @@ import Link from 'next/link';
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'All Facilities', href: '/facilities' },
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'How It Works', href: '/#how-it-works' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 export default function Navbar() {
@@ -59,10 +59,10 @@ export default function Navbar() {
           <div className="hidden lg:block">
             <Link
               href="/login"
-              className="group inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-semibold text-paper shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:gap-3"
+              className="group inline-flex items-center gap-2 rounded-full bg-pine px-5 py-2.5 text-sm font-semibold text-paper shadow-sm"
             >
               Login
-              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
 

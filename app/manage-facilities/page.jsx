@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Pencil, Trash2, ArrowRight, Plus } from 'lucide-react';
 import { authClient } from '../lib/auth-client'
+import toast from 'react-hot-toast';
 
 function ConfirmModal({ facilityName, onConfirm, onCancel }) {
   return (
@@ -54,8 +55,23 @@ export default function ManageFacilitiesPage() {
     getMyFacilities();
   }, [email]);
 
-  const confirmDelete = () => {
-    setFacilities(prev => prev.filter(f => f.id !== deleteTarget.id));
+  const confirmDelete = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my_facility/delete/${deleteTarget._id}`, {
+        method: "DELETE",
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      const data = await res.json();
+      if (data.status == 200 ) {
+        toast.success("Facility deleted successfully.");
+        window.location.reload();
+      }
+    }
+    catch{
+      toast.error("Something wrong. Facility can't be delete.")
+    }
     setDeleteTarget(null);
   };
 

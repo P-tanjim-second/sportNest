@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   SPORTNEST DESIGN TOKENS
+   Single source of truth. Reference everywhere via var(--name).
+   Concept: "All-Access Pass" — booking = a membership ticket.
+============================================================ */
+
+:root {
+  /* Surfaces */
+  --color-paper: #F1F2EA;       /* page background — sage-linen */
+  --color-paper-dark: #E6E8DA;  /* alternate section bg */
+  --color-surface: #FFFFFF;     /* cards */
+
+  /* Pine — primary ink */
+  --color-pine: #16332A;
+  --color-pine-soft: #234A3B;
+  --color-sage: #4A5F52;        /* secondary text/icons */
+
+  /* Court — signature accent (tennis-ball) */
+  --color-court: #D4E157;
+  --color-court-soft: #EFF4C9;
+
+  /* Clay — "live / active" accent, used sparingly */
+  --color-clay: #C2502E;
+  --color-clay-soft: #F4DCD2;
+
+  /* Text */
+  --color-text: #1A2420;
+  --color-muted: #767F78;
+  --color-border: rgba(22, 51, 42, 0.10);
+
+  /* Typography */
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+
+  /* Layered shadows — the "3D from 2D" depth system */
+  --shadow-sm: 0 1px 2px rgba(22,51,42,0.05), 0 2px 6px rgba(22,51,42,0.06);
+  --shadow-md: 0 8px 16px rgba(22,51,42,0.06), 0 20px 40px rgba(22,51,42,0.08);
+  --shadow-lg: 0 14px 28px rgba(22,51,42,0.07), 0 36px 72px rgba(22,51,42,0.11);
+  --shadow-float: 0 22px 44px -12px rgba(22,51,42,0.28), 0 10px 24px -8px rgba(22,51,42,0.16);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-paper);
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); }
+
+::selection { background: var(--color-court-soft); }
+
+/* ---------------- Reusable surfaces ---------------- */
+
+.glass {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* Highlighter-marker effect behind accent words in headlines */
+.text-highlight { position: relative; display: inline-block; }
+.text-highlight::before {
+  content: '';
+  position: absolute;
+  left: -0.08em; right: -0.08em; top: 0.32em; bottom: 0.05em;
+  background: var(--color-court);
+  border-radius: 0.35em;
+  transform: rotate(-2deg);
+  z-index: -1;
+}
+
+/* Barcode strip used on "pass" card stubs */
+.barcode {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-pine) 0 2px,
+    transparent 2px 4px,
+    var(--color-pine) 4px 5px,
+    transparent 5px 9px
+  );
+}
+
+/* Subtle paper-grain overlay (optional, very low opacity) */
+.bg-grain { position: relative; }
+.bg-grain::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 60;
+  opacity: 0.035; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------------- Keyframes ---------------- */
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(28px,-30px) scale(1.06); }
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(194,80,46,0.35); }
+  70% { box-shadow: 0 0 0 14px rgba(194,80,46,0); }
+  100% { box-shadow: 0 0 0 0 rgba(194,80,46,0); }
+}
+
+.animate-float-y { animation: float-y 6s ease-in-out infinite; }
+.animate-float-y-slow { animation: float-y 8s ease-in-out infinite; animation-delay: 1s; }
+.animate-drift-1 { animation: drift 18s ease-in-out infinite; }
+.animate-drift-2 { animation: drift 22s ease-in-out infinite reverse; animation-delay: 2s; }
+.animate-pulse-ring { animation: pulse-ring 2.2s cubic-bezier(0.4,0,0.6,1) infinite; }
+
+/* ---------------- Entrance animation system ----------------
+   Add `fade-up` (or `fade-in`) + toggle the `in-view` class once
+   mounted to make elements settle into place. Set a `--tilt`
+   CSS var on cards that should keep a slight permanent rotation. */
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px) scale(0.97) rotate(var(--tilt, 0deg));
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(var(--tilt, 0deg));
+}
+
+.fade-in { opacity: 0; transition: opacity 1s ease-out; }
+.fade-in.in-view { opacity: 1; }

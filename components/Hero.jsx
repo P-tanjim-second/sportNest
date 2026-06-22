@@ -53,7 +53,7 @@ export default function Hero() {
               style={{ transitionDelay: '0.4s', color: 'var(--color-sage)' }}
             >
               Browse football turfs, badminton courts, swimming lanes and tennis
-              courts nearby, then reserve your slot in seconds — all with one
+              courts nearby, then reserve your slot in seconds. All with one
               membership pass.
             </p>
 
@@ -93,7 +93,6 @@ export default function Hero() {
             style={{ transitionDelay: '0.15s', perspective: '1400px' }}
           >
 
-            {/* Tilted ticket */}
             <div
               style={{
                 transform: 'rotateX(5deg) rotateY(-12deg) rotateZ(1deg)',
@@ -101,10 +100,6 @@ export default function Hero() {
               }}
             >
 
-              {/*
-      No overflow:hidden on the shell — lets the perforation
-      semicircles bleed past the left/right edges correctly.
-    */}
               <div
                 style={{
                   borderRadius: '1.25rem',
@@ -113,7 +108,6 @@ export default function Hero() {
                 }}
               >
 
-                {/* ① GREEN MAIN SECTION */}
                 <div
                   style={{
                     borderRadius: '1.25rem 1.25rem 0 0',
@@ -124,7 +118,6 @@ export default function Hero() {
                   }}
                 >
 
-                  {/* Full football pitch blueprint — architectural, low opacity */}
                   <svg
                     viewBox="0 0 400 200"
                     className="absolute inset-0 h-full w-full"
@@ -134,40 +127,26 @@ export default function Hero() {
                     style={{ opacity: 0.1 }}
                     aria-hidden="true"
                   >
-                    {/* Outer boundary */}
                     <rect x="18" y="14" width="364" height="172" />
-                    {/* Halfway line */}
                     <line x1="200" y1="14" x2="200" y2="186" />
-                    {/* Centre circle + spot */}
                     <circle cx="200" cy="100" r="36" />
                     <circle cx="200" cy="100" r="2.5" fill="var(--color-paper)" stroke="none" />
-                    {/* Left penalty area */}
                     <rect x="18" y="58" width="70" height="84" />
-                    {/* Left goal area */}
                     <rect x="18" y="78" width="26" height="44" />
-                    {/* Left penalty spot */}
                     <circle cx="58" cy="100" r="1.8" fill="var(--color-paper)" stroke="none" />
-                    {/* Left penalty arc (quadratic bezier — simpler & correct) */}
                     <path d="M88,74 Q126,100 88,126" strokeDasharray="3 3" />
-                    {/* Right penalty area */}
                     <rect x="312" y="58" width="70" height="84" />
-                    {/* Right goal area */}
                     <rect x="356" y="78" width="26" height="44" />
-                    {/* Right penalty spot */}
                     <circle cx="342" cy="100" r="1.8" fill="var(--color-paper)" stroke="none" />
-                    {/* Right penalty arc */}
                     <path d="M312,74 Q274,100 312,126" strokeDasharray="3 3" />
-                    {/* Corner arcs */}
                     <path d="M18,14 Q26,14 26,22" />
                     <path d="M382,14 Q382,22 374,22" />
                     <path d="M18,186 Q18,178 26,178" />
                     <path d="M382,186 Q374,186 374,178" />
-                    {/* Goals */}
                     <rect x="4" y="83" width="14" height="34" />
                     <rect x="382" y="83" width="14" height="34" />
                   </svg>
 
-                  {/* Vertical watermark — a real printed-ticket detail */}
                   <p
                     className="absolute z-0 select-none"
                     style={{
@@ -186,10 +165,8 @@ export default function Hero() {
                     SportNest · All Access Pass
                   </p>
 
-                  {/* ── Ticket content ── */}
                   <div className="relative z-10">
 
-                    {/* Venue name + sport badge */}
                     <div
                       style={{
                         display: 'flex',
@@ -239,7 +216,6 @@ export default function Hero() {
                         </p>
                       </div>
 
-                      {/* Sport label pill */}
                       <div
                         style={{
                           background: 'var(--color-court)',
@@ -263,7 +239,6 @@ export default function Hero() {
                       </div>
                     </div>
 
-                    {/* Booking metadata row */}
                     <div
                       style={{
                         marginTop: '1.75rem',
@@ -277,7 +252,7 @@ export default function Hero() {
                       <div style={{ display: 'flex', gap: '1.5rem' }}>
                         {[
                           ['Date', 'SAT 22 JUN'],
-                          ['Slot', '18:00–19:00'],
+                          ['Slot', '18:00-19:00'],
                           ['Pitch', '04 / A'],
                         ].map(([label, val]) => (
                           <div key={label}>
@@ -307,7 +282,6 @@ export default function Hero() {
                         ))}
                       </div>
 
-                      {/* Ticket reference — subtle authenticity detail */}
                       <p
                         style={{
                           fontFamily: 'var(--font-mono)',
@@ -323,9 +297,7 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* ② PERFORATED DIVIDER */}
                 <div style={{ position: 'relative', height: '1px', overflow: 'visible' }}>
-                  {/* Dashed tear line (inset so it doesn't touch the semicircles) */}
                   <div
                     style={{
                       position: 'absolute',
@@ -335,7 +307,6 @@ export default function Hero() {
                       borderTop: '1.5px dashed rgba(22,51,42,0.18)',
                     }}
                   />
-                  {/* Left notch — matches Hero section background */}
                   <span
                     style={{
                       position: 'absolute',
@@ -348,7 +319,6 @@ export default function Hero() {
                       display: 'block',
                     }}
                   />
-                  {/* Right notch */}
                   <span
                     style={{
                       position: 'absolute',
@@ -363,7 +333,6 @@ export default function Hero() {
                   />
                 </div>
 
-                {/* ③ STUB */}
                 <div
                   style={{
                     borderRadius: '0 0 1.25rem 1.25rem',
@@ -375,7 +344,6 @@ export default function Hero() {
                     gap: '1rem',
                   }}
                 >
-                  {/* Pass type */}
                   <div>
                     <p
                       style={{
@@ -402,10 +370,6 @@ export default function Hero() {
                     </p>
                   </div>
 
-                  {/*
-          Barcode — more authentic to the ticket metaphor than a QR.
-          Each [x, width] pair is one vertical bar.
-        */}
                   <svg
                     width={70}
                     height={32}
@@ -422,7 +386,6 @@ export default function Hero() {
                     ))}
                   </svg>
 
-                  {/* Price */}
                   <div style={{ textAlign: 'right' }}>
                     <p
                       style={{
@@ -463,7 +426,6 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* ── Also available today strip ── */}
             <div
               className={`fade-in ${animationClass}`}
               style={{ marginTop: '1.75rem', transitionDelay: '0.6s' }}
@@ -531,12 +493,6 @@ export default function Hero() {
 
           </div>
         </div>
-      </div>
-
-      <div className={`fade-in ${animationClass} absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex`} style={{ transitionDelay: '0.9s' }}>
-        <span className="text-[10px] font-bold uppercase tracking-widest" style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-muted)' }}>Scroll</span>
-        <span className="h-8 w-px" style={{ background: 'var(--color-border)' }} />
-        <span className="h-1.5 w-1.5 animate-bounce rounded-full text-muted" style={{ background: 'var(--color-court)' }} />
       </div>
     </section>
   );

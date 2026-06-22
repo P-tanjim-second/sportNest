@@ -121,7 +121,7 @@ export default function RegisterPage() {
             <form onSubmit={signUp}>
               <div>
                 <label className="block text-xs font-semibold mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-pine)', letterSpacing: '0.06em' }}>FULL NAME</label>
-                <input type="text" name="name" placeholder="Your name" className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
+                <input required type="text" name="name" placeholder="Your name" className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
                   style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border)', color: 'var(--color-text)' }}
                   onFocus={e => e.target.style.borderColor = 'var(--color-pine)'}
                   onBlur={e => e.target.style.borderColor = 'var(--color-border)'} />
@@ -129,7 +129,7 @@ export default function RegisterPage() {
 
               <div>
                 <label className="block text-xs font-semibold mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-pine)', letterSpacing: '0.06em' }}>EMAIL</label>
-                <input type="email" name='email' placeholder="you@example.com" className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
+                <input required type="email" name='email' placeholder="you@example.com" className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
                   style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border)', color: 'var(--color-text)' }}
                   onFocus={e => e.target.style.borderColor = 'var(--color-pine)'}
                   onBlur={e => e.target.style.borderColor = 'var(--color-border)'} />
@@ -137,7 +137,7 @@ export default function RegisterPage() {
 
               <div>
                 <label className="block text-xs font-semibold mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-pine)', letterSpacing: '0.06em' }}>PHOTO URL</label>
-                <input type="url" name='image_url' placeholder="https://i.imgur.com/..." className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
+                <input required type="url" name='image_url' placeholder="https://i.imgur.com/..." className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300"
                   style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border)', color: 'var(--color-text)' }}
                   onFocus={e => e.target.style.borderColor = 'var(--color-pine)'}
                   onBlur={e => e.target.style.borderColor = 'var(--color-border)'} />
@@ -146,7 +146,7 @@ export default function RegisterPage() {
               <div>
                 <label className="block text-xs font-semibold mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-pine)', letterSpacing: '0.06em' }}>PASSWORD</label>
                 <div className="relative">
-                  <input name='password' type={showPw ? 'text' : 'password'} value={pw} onChange={e => setPw(e.target.value)} placeholder="••••••••"
+                  <input required name='password' type={showPw ? 'text' : 'password'} value={pw} onChange={e => setPw(e.target.value)} placeholder="••••••••"
                     className="w-full rounded-xl px-4 py-3 text-sm outline-none pr-12 transition-all duration-300"
                     style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border)', color: 'var(--color-text)' }}
                     onFocus={e => e.target.style.borderColor = 'var(--color-pine)'}

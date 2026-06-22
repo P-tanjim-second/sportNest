@@ -106,6 +106,7 @@ export default function LoginPage() {
               <div>
                 <label className="block text-xs font-semibold mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-pine)', letterSpacing: '0.06em' }}>EMAIL</label>
                 <input
+                  required
                   type="email"
                   name='email'
                   placeholder="you@example.com"
@@ -120,6 +121,7 @@ export default function LoginPage() {
                 <label className="block text-xs font-semibold mb-2" style={{ fontFamily: 'var(--font-mono)', color: 'var(--color-pine)', letterSpacing: '0.06em' }}>PASSWORD</label>
                 <div className="relative">
                   <input
+                    required
                     name='password'
                     type={showPw ? 'text' : 'password'}
                     placeholder="••••••••"

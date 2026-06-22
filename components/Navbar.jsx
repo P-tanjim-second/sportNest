@@ -11,6 +11,12 @@ const navLinks = [
   { label: 'How It Works', href: '/#how-it-works' },
   { label: 'Contact', href: '/#contact' },
 ];
+const authNavLinks = [
+  { label: 'All Facilities', href: '/facilities' },
+  { label: 'Add Facilities', href: '/add-facility' },
+  { label: 'My Bookings', href: '/my-bookings' },
+  { label: 'My Facilities', href: '/manage-facilities' },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -85,9 +91,9 @@ export default function Navbar() {
                 <AnimatePresence>
                   {open && (
                     <motion.div
-                      initial={{ opacity: 0, y: -20, scale: 0.9,transformOrigin: 'top right', }}
-                      animate={{ opacity: 1, y: 0, scale: 1,transformOrigin: 'top right', }}
-                      exit={{ opacity: 0, y: -20, scale: 0.5,transformOrigin: 'top right', }}
+                      initial={{ opacity: 0, y: -20, scale: 0.9, transformOrigin: 'top right', }}
+                      animate={{ opacity: 1, y: 0, scale: 1, transformOrigin: 'top right', }}
+                      exit={{ opacity: 0, y: -20, scale: 0.5, transformOrigin: 'top right', }}
                       transition={{
                         type: 'spring',
                         stiffness: 400,
@@ -107,6 +113,13 @@ export default function Navbar() {
                         className="block px-4 py-3 text-sm hover:bg-gray-100"
                       >
                         My Bookings
+                      </Link>
+
+                      <Link
+                        href="/manage-facilities"
+                        className="block px-4 py-3 text-sm hover:bg-gray-100"
+                      >
+                        My Facilities
                       </Link>
 
                       <button
@@ -140,23 +153,35 @@ export default function Navbar() {
             }`}
         >
           <div className="flex flex-col gap-1 p-4">
-            {navLinks.map((link) => (
-              <a
+            {!user ? navLinks.map((link) => (
+              <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className="rounded-2xl px-4 py-3 text-sm font-medium text-sage"
               >
                 {link.label}
-              </a>
-            ))}
+              </Link>
+            )) :
+              authNavLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="rounded-2xl px-4 py-3 text-sm font-medium text-sage"
+                >
+                  {link.label}
+                </Link>
+              ))
+            }
 
             <Link
-              href="/login"
+              href={"/login"}
+              onClick={user && logOut}
               className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-pine px-5 py-3 text-sm font-semibold text-paper"
             >
               <span className="flex items-center gap-2">
-                Login
+                {!user ? 'Login' : 'Logout'}
                 <ArrowRight className="h-3.5 w-3.5" />
               </span>
             </Link>

@@ -32,6 +32,7 @@ export default function FacilitiesPage() {
   const [ALL_FACILITIES, setALL_FACILITIES] = useState([])
   const [activeType, setActiveType] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const searchParams = useSearchParams();
   const typeParam = searchParams.get('type') || "All";
 
@@ -45,7 +46,6 @@ export default function FacilitiesPage() {
         const updatedData = data.map(f => ({
           ...f,
           slots: f.slots[0],
-          reviews: Math.floor(Math.random() * 200)
         }))
         setALL_FACILITIES(updatedData)
       }
@@ -59,10 +59,29 @@ export default function FacilitiesPage() {
     getFacilities()
   }, [typeParam])
 
-  const [search, setSearch] = useState('');
-
-
   const filtered = ALL_FACILITIES;
+
+
+  const handleSearchFilter = async () => {
+    setLoading(true);
+    if (search.length > 0) {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/all_facilities${typeParam == 'All' ? '' : '?type=' + typeParam}${typeParam == "All" ? "?" : "&"}search=${search}`);
+        const {data} = await res.json();
+        const updatedData = data.map(f => ({
+          ...f,
+          slots: f.slots[0],
+        }))
+        setALL_FACILITIES(updatedData)
+      }
+      catch {
+        toast.error("Something wrong. Facilities can't be shown.")
+      }
+      finally {
+        setLoading(false)
+      }
+    }
+  }
 
   return (
     <div style={{ background: 'var(--color-paper)', minHeight: '100vh' }}>
@@ -98,7 +117,7 @@ export default function FacilitiesPage() {
               onFocus={e => e.target.style.borderColor = 'var(--color-pine)'}
               onBlur={e => e.target.style.borderColor = 'var(--color-border)'} />
           </div>
-          <button className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
+          <button onClick={handleSearchFilter} className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
             style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border)', color: 'var(--color-pine)', boxShadow: 'var(--shadow-sm)' }}>
             <SlidersHorizontal className="h-4 w-4" /> Filters
           </button>
@@ -252,8 +271,8 @@ export default function FacilitiesPage() {
               <p className="text-5xl mb-4">🏟️</p>
               <p className="text-xl mb-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-pine)' }}>No venues found</p>
               <p className="text-sm mb-6" style={{ color: 'var(--color-muted)' }}>Try a different sport or clear your search.</p>
-              <button onClick={() => { setSearch(''); setActiveType('All'); }} className="rounded-full px-6 py-2.5 text-sm font-semibold"
-                style={{ background: 'var(--color-pine)', color: 'var(--color-paper)' }}>Clear Filters</button>
+              <Link href={'/facilities'} onClick={() => { setSearch(''); setActiveType('All'); }} className="rounded-full px-6 py-2.5 text-sm font-semibold"
+                style={{ background: 'var(--color-pine)', color: 'var(--color-paper)' }}>Clear Filters</Link>
             </div>
           )
         }

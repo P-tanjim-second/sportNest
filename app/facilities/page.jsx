@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { Search, SlidersHorizontal, MapPin, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 
-const SPORT_TYPES = ['All', 'Football', 'Badminton', 'Swimming', 'Tennis', 'Basketball', 'Cricket'];
+const SPORT_TYPES = ['All', 'Football', 'Badminton', 'Swimming', 'Tennis', 'Basketball', 'Cricket', 'Vollyball', 'Table_Tennis'];
 
 function LineArt({ facility_type }) {
   const s = { fill: 'none', stroke: 'white', strokeWidth: '1.5' };
@@ -29,12 +30,17 @@ function LineArt({ facility_type }) {
 
 export default function FacilitiesPage() {
   const [ALL_FACILITIES, setALL_FACILITIES] = useState([])
+  const [activeType, setActiveType] = useState('All');
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const typeParam = searchParams.get('type') || "All";
+
   useEffect(() => {
     async function getFacilities() {
+      setActiveType(typeParam)
       setLoading(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/all_facilities`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/all_facilities${typeParam == 'All' ? '' : '?type=' + typeParam}`);
         const { data } = await res.json();
         const updatedData = data.map(f => ({
           ...f,
@@ -51,17 +57,12 @@ export default function FacilitiesPage() {
       }
     }
     getFacilities()
-  }, [])
+  }, [typeParam])
 
   const [search, setSearch] = useState('');
-  const [activeType, setActiveType] = useState('All');
 
-  const filtered = ALL_FACILITIES.filter(f => {
-    const matchType = activeType === 'All' || f.facility_type === activeType;
-    const matchSearch = f.name.toLowerCase().includes(search.toLowerCase()) ||
-      f.location.toLowerCase().includes(search.toLowerCase());
-    return matchType && matchSearch;
-  });
+
+  const filtered = ALL_FACILITIES;
 
   return (
     <div style={{ background: 'var(--color-paper)', minHeight: '100vh' }}>
@@ -108,7 +109,7 @@ export default function FacilitiesPage() {
           {SPORT_TYPES.map(type => {
             const active = activeType === type;
             return (
-              <button key={type} onClick={() => setActiveType(type)}
+              <Link href={`/facilities${type == 'All' ? '' : '?type=' + type}`} key={type}
                 className="rounded-full px-4 py-2 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5"
                 style={{
                   background: active ? 'var(--color-pine)' : 'var(--color-surface)',
@@ -117,7 +118,7 @@ export default function FacilitiesPage() {
                   boxShadow: active ? 'var(--shadow-sm)' : 'none',
                 }}>
                 {type}
-              </button>
+              </Link>
             );
           })}
         </div>

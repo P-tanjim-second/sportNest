@@ -13,7 +13,7 @@ function BookingCard({ b, setDeleteTarget }) {
 
   const st = STATUS_STYLES[b.status];
   return (
-    <div style={{ borderRadius: '1.5rem', boxShadow: 'var(--shadow-md)'}}>
+    <div style={{ borderRadius: '1.5rem', boxShadow: 'var(--shadow-md)' }}>
       <div style={{ position: 'relative', overflow: 'hidden', height: '7rem', background: b.grad, borderRadius: '1.5rem 1.5rem 0 0' }}>
         <div className="absolute inset-0 flex flex-col justify-between p-5">
           <div className="flex items-center justify-between">
@@ -252,6 +252,15 @@ export default function MyBookingsPage() {
   }, [session?.user?.email])
   const [bookings, setBookings] = useState(BOOKINGS);
 
+  const updateBooking = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_dec_booking/${id}/${-1}`, {
+      method: "PATCH",
+      headers: {
+        'content-type': "application/json"
+      }
+    })
+  }
+
   const confirmDelete = async () => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/cancel/${deleteTarget.id}`, {
@@ -263,6 +272,7 @@ export default function MyBookingsPage() {
       const { data } = await res.json();
       if (data.deletedCount > 0) {
         toast.success("Booking canceled successfully.");
+        updateBooking();
         window.location.reload();
       }
     }

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 const SPORTS = [
@@ -10,7 +11,7 @@ const SPORTS = [
   { label: 'Basketball',  emoji: '🏀', count: '18 venues', color: '#6B2A0E', light: '#F4DFD4' },
   { label: 'Cricket',     emoji: '🏏', count: '31 venues', color: '#3A2A1A', light: '#EAE0D4' },
   { label: 'Volleyball',  emoji: '🏐', count: '14 venues', color: '#4A2A6B', light: '#E4D4F0' },
-  { label: 'Table Tennis',emoji: '🏓', count: '24 venues', color: '#2A4A1A', light: '#D8EAD0' },
+  { label: 'Table_Tennis',emoji: '🏓', count: '24 venues', color: '#2A4A1A', light: '#D8EAD0' },
 ];
 
 const HIGHLIGHTS = [
@@ -126,14 +127,14 @@ export default function SportCategories() {
                     <p style={{ fontFamily: 'var(--font-mono)', color: 'rgba(241,242,234,0.55)', fontSize: '12px', marginTop: '2px' }}>{s.count} across Dhaka</p>
                   </div>
                 </div>
-                <a
-                  href={`/facilities?type=${s.label.toLowerCase()}`}
+                <Link
+                  href={`/facilities?type=${s.label}`}
                   className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold self-start sm:self-auto"
                   style={{ background: 'var(--color-court)', color: 'var(--color-pine)' }}
                 >
                   Browse {s.label} Venues
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
+                </Link>
               </div>
             </div>
           );

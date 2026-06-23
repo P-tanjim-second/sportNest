@@ -80,7 +80,7 @@ export default function FacilityDetailPage({ params }) {
   }, []);
 
   const updateBooking = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_booking/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_dec_booking/${id}/${1}`, {
       method: "PATCH",
       headers: {
         'content-type': "application/json"

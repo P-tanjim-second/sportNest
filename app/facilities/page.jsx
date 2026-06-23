@@ -1,10 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { Search, SlidersHorizontal, MapPin, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-
 
 const SPORT_TYPES = ['All', 'Football', 'Badminton', 'Swimming', 'Tennis', 'Basketball', 'Cricket', 'Vollyball', 'Table_Tennis'];
 
@@ -28,7 +27,8 @@ function LineArt({ facility_type }) {
   return <svg viewBox="0 0 200 160" className="absolute inset-0 h-full w-full opacity-[0.15]" fill="none">{art[facility_type]}</svg>;
 }
 
-export default function FacilitiesPage() {
+// 1. Rename the original component to be a sub-component
+function FacilitiesContent() {
   const [ALL_FACILITIES, setALL_FACILITIES] = useState([])
   const [activeType, setActiveType] = useState('All');
   const [loading, setLoading] = useState(true);
@@ -61,7 +61,6 @@ export default function FacilitiesPage() {
 
   const filtered = ALL_FACILITIES;
 
-
   const handleSearchFilter = async () => {
     setLoading(true);
     if (search.length > 0) {
@@ -85,7 +84,6 @@ export default function FacilitiesPage() {
 
   return (
     <div style={{ background: 'var(--color-paper)', minHeight: '100vh' }}>
-
       {/* Page hero */}
       <div className="pt-32 pb-14 px-6 lg:px-10" style={{ background: 'var(--color-pine)', position: 'relative', overflow: 'hidden' }}>
         <div className="absolute inset-0 opacity-[0.05]">
@@ -106,7 +104,6 @@ export default function FacilitiesPage() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10">
-
         {/* Search + filter bar */}
         <div className="mb-8 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1">
@@ -279,4 +276,17 @@ export default function FacilitiesPage() {
       </div>
     </div>
   );
+}
+
+// 2. Export the main page component wrapped in Suspense
+export default function FacilitiesPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-paper)' }}>
+        <p style={{ color: 'var(--color-pine)', fontFamily: 'var(--font-mono)' }}>Loading Facilities...</p>
+      </div>
+    }>
+      <FacilitiesContent />
+    </Suspense>
+  )
 }

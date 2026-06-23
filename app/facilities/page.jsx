@@ -4,19 +4,6 @@ import { Search, SlidersHorizontal, MapPin, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
-// const ALL_FACILITIES = [
-//   { id: 1, facility_type: 'Football', name: 'Downtown Turf Arena', location: 'Gulshan, Dhaka', price_per_hour: '৳2,500', rating: 4.9, reviews: 128, capacity: '22 Players', slots: '6 AM-11 PM', grad: 'linear-gradient(155deg,#16332A,#234A3B)', accent: '#D4E157' },
-//   { id: 2, facility_type: 'Badminton', name: 'Birdie Club', location: 'Mirpur, Dhaka', price_per_hour: '৳800', rating: 4.8, reviews: 94, capacity: '4 Players', slots: '5 AM-10 PM', grad: 'linear-gradient(155deg,#1A3A4A,#2A5A6B)', accent: '#A8D8EA' },
-//   { id: 3, facility_type: 'Swimming', name: 'AquaLane Center', location: 'Dhanmondi, Dhaka', price_per_hour: '৳1,200', rating: 4.7, reviews: 76, capacity: '8 Lanes', slots: '6 AM-9 PM', grad: 'linear-gradient(155deg,#1A4A6B,#2A6B8A)', accent: '#93E4DC' },
-//   { id: 4, facility_type: 'Tennis', name: 'Riverside Courts', location: 'Banani, Dhaka', price_per_hour: '৳1,800', rating: 4.9, reviews: 112, capacity: '4 Players', slots: '6 AM-10 PM', grad: 'linear-gradient(155deg,#2D4A35,#3D6347)', accent: '#D4E157' },
-//   { id: 5, facility_type: 'Basketball', name: 'Hoop House', location: 'Uttara, Dhaka', price_per_hour: '৳1,500', rating: 4.6, reviews: 68, capacity: '10 Players', slots: '7 AM-10 PM', grad: 'linear-gradient(155deg,#6B2A0E,#C2502E)', accent: '#F4C89A' },
-//   { id: 6, facility_type: 'Cricket', name: 'Pitch Perfect Arena', location: 'Motijheel, Dhaka', price_per_hour: '৳3,000', rating: 4.8, reviews: 89, capacity: '22 Players', slots: '6 AM-8 PM', grad: 'linear-gradient(155deg,#3A2A1A,#5C4A2A)', accent: '#D4C09A' },
-//   { id: 7, facility_type: 'Football', name: 'Northside Turf Complex', location: 'Uttara, Dhaka', price_per_hour: '৳2,000', rating: 4.7, reviews: 55, capacity: '22 Players', slots: '6 AM-11 PM', grad: 'linear-gradient(155deg,#16332A,#234A3B)', accent: '#D4E157' },
-//   { id: 8, facility_type: 'Badminton', name: 'Smash Arena', location: 'Gulshan, Dhaka', price_per_hour: '৳900', rating: 4.6, reviews: 42, capacity: '4 Players', slots: '5 AM-9 PM', grad: 'linear-gradient(155deg,#1A3A4A,#2A5A6B)', accent: '#A8D8EA' },
-//   { id: 9, facility_type: 'Tennis', name: 'Green Court Tennis', location: 'Dhanmondi, Dhaka', price_per_hour: '৳1,600', rating: 4.8, reviews: 63, capacity: '4 Players', slots: '6 AM-9 PM', grad: 'linear-gradient(155deg,#2D4A35,#3D6347)', accent: '#D4E157' },
-//   { id: 10, facility_type: 'Vollyball', name: 'Smash Arena', location: 'Gulshan, Dhaka', price_per_hour: '৳900', rating: 4.6, reviews: 42, capacity: '4 Players', slots: '5 AM-9 PM', grad: 'linear-gradient(155deg,#1A3A4A,#2A5A6B)', accent: '#A8D8EA' },
-//   { id: 11, facility_type: 'Table_Tennis', name: 'Green Court Tennis', location: 'Dhanmondi, Dhaka', price_per_hour: '৳1,600', rating: 4.8, reviews: 63, capacity: '4 Players', slots: '6 AM-9 PM', grad: 'linear-gradient(155deg,#2D4A35,#3D6347)', accent: '#D4E157' },
-// ];
 
 const SPORT_TYPES = ['All', 'Football', 'Badminton', 'Swimming', 'Tennis', 'Basketball', 'Cricket'];
 

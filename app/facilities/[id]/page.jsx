@@ -63,17 +63,18 @@ export default function FacilityDetailPage({ params }) {
 
   useEffect(() => {
     async function getFacility() {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${id}`);
-        const { data } = await res.json();
-        setFULL_FACILITY(data);
-      } catch (error) {
-        console.error("Failed to fetch facility:", error);
-      } finally {
-        setIsLoading(false);
+      if (id) {
+        try {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${id}`);
+          const { data } = await res.json();
+          setFULL_FACILITY(data);
+        } catch (error) {
+          console.error("Failed to fetch facility:", error);
+        } finally {
+          setIsLoading(false);
+        }
       }
     }
-
     getFacility();
     isUserBooked(session, id, setIsBooked);
   }, []);

@@ -7,14 +7,13 @@ import toast from 'react-hot-toast';
 const STATUS_STYLES = {
   pending: { bg: 'var(--color-court-soft)', color: '#7A7000', label: 'Pending' },
   confirmed: { bg: '#D4EAD8', color: '#1A4A2A', label: 'Confirmed' },
-  cancelled: { bg: 'var(--color-clay-soft)', color: 'var(--color-clay)', label: 'Cancelled' },
 };
 
 function BookingCard({ b, setDeleteTarget }) {
 
   const st = STATUS_STYLES[b.status];
   return (
-    <div style={{ borderRadius: '1.5rem', boxShadow: 'var(--shadow-md)', opacity: b.status === 'cancelled' ? 0.65 : 1 }}>
+    <div style={{ borderRadius: '1.5rem', boxShadow: 'var(--shadow-md)'}}>
       <div style={{ position: 'relative', overflow: 'hidden', height: '7rem', background: b.grad, borderRadius: '1.5rem 1.5rem 0 0' }}>
         <div className="absolute inset-0 flex flex-col justify-between p-5">
           <div className="flex items-center justify-between">
@@ -54,14 +53,12 @@ function BookingCard({ b, setDeleteTarget }) {
           <span className="rounded-full px-3 py-1 text-[11px] font-bold" style={{ background: st.bg, color: st.color, fontFamily: 'var(--font-mono)' }}>
             {st.label}
           </span>
-          {b.status !== 'cancelled' && (
-            <button onClick={() => setDeleteTarget(b)} className="inline-flex items-center gap-1 text-xs font-semibold transition-colors duration-200"
-              style={{ color: 'var(--color-clay)' }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
-              <X className="h-3.5 w-3.5" /> Cancel
-            </button>
-          )}
+          <button onClick={() => setDeleteTarget(b)} className="inline-flex items-center gap-1 text-xs font-semibold transition-colors duration-200"
+            style={{ color: 'var(--color-clay)' }}
+            onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
+            onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+            <X className="h-3.5 w-3.5" /> Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -197,7 +194,7 @@ function BookingCardSkeleton() {
   );
 }
 
-function ConfirmModal({ facilityName, onConfirm, onCancel, facility_id, canceledDesign }) {
+function ConfirmModal({ facilityName, onConfirm, onCancel }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(22,51,42,0.5)', backdropFilter: 'blur(6px)' }}>
       <div className="w-full max-w-sm rounded-2xl p-8 text-center" style={{ background: 'var(--color-surface)', boxShadow: 'var(--shadow-float)' }}>
@@ -214,7 +211,7 @@ function ConfirmModal({ facilityName, onConfirm, onCancel, facility_id, canceled
             style={{ background: 'var(--color-paper-dark)', border: '1.5px solid var(--color-border)', color: 'var(--color-sage)' }}>
             Keep it
           </button>
-          <button onClick={() => {onConfirm(); canceledDesign(facility_id);}} className="flex-1 rounded-full py-2.5 text-sm font-semibold"
+          <button onClick={onConfirm} className="flex-1 rounded-full py-2.5 text-sm font-semibold"
             style={{ background: 'var(--color-clay)', color: 'white', boxShadow: 'var(--shadow-sm)' }}>
             Yes, cancel
           </button>
@@ -263,9 +260,10 @@ export default function MyBookingsPage() {
           'content-type': 'application/json'
         }
       })
-      const {data} = await res.json();
+      const { data } = await res.json();
       if (data.deletedCount > 0) {
         toast.success("Booking canceled successfully.");
+        window.location.reload();
       }
     }
     catch {
@@ -276,15 +274,13 @@ export default function MyBookingsPage() {
 
   const [filter, setFilter] = useState('All');
 
-  const cancel = id => setBookings(bs => bs.map(b => b.id === id ? { ...b, status: 'cancelled' } : b));
-
-  const statuses = ['All', 'Confirmed', 'Pending', 'Cancelled'];
+  const statuses = ['All', 'Confirmed', 'Pending'];
   const filtered = filter === 'All' ? bookings : bookings.filter(b => b.status === filter.toLowerCase());
 
   return (
     <div style={{ background: 'var(--color-paper)', minHeight: '100vh' }}>
 
-      {deleteTarget && <ConfirmModal facilityName={deleteTarget.facility_name} onConfirm={confirmDelete} onCancel={() => setDeleteTarget(null)} facility_id={deleteTarget.id } canceledDesign={cancel}/>}
+      {deleteTarget && <ConfirmModal facilityName={deleteTarget.facility_name} onConfirm={confirmDelete} onCancel={() => setDeleteTarget(null)} />}
 
       <div className="pt-32 pb-12 px-6 lg:px-10" style={{ background: 'var(--color-paper-dark)', borderBottom: '1px solid var(--color-border)' }}>
         <div className="mx-auto max-w-7xl">
@@ -297,7 +293,6 @@ export default function MyBookingsPage() {
               ['Total', bookings.length, 'var(--color-pine)'],
               ['Confirmed', bookings.filter(b => b.status === 'confirmed').length, '#1A4A2A'],
               ['Pending', bookings.filter(b => b.status === 'pending').length, '#7A7000'],
-              ['Cancelled', bookings.filter(b => b.status === 'cancelled').length, 'var(--color-clay)'],
             ].map(([label, count, col]) => (
               <div key={label} className="rounded-2xl px-5 py-3" style={{ background: 'var(--color-surface)', border: '1.5px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
                 <p style={{ fontSize: '1.4rem', fontFamily: 'var(--font-display)', color: col }}>{count}</p>

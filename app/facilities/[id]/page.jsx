@@ -78,7 +78,10 @@ export default function FacilityDetailPage({params}) {
       status: 'pending',
       total_price: total,
       facility_name: FULL_FACILITY.name,
-      location: FULL_FACILITY.location
+      location: FULL_FACILITY.location,
+      grad: FULL_FACILITY.grad,
+      accent: FULL_FACILITY.accent,
+      facility_type: FULL_FACILITY.facility_type
     }
     console.log(Data)
     try{

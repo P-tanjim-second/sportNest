@@ -64,6 +64,15 @@ export default function FacilityDetailPage({params}) {
     getFacility();
   }, []);
 
+  const updateBooking = async () => {
+    const res = await fetch (`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_booking/${id}`, {
+      method: "PATCH",
+      headers: {
+        'content-type': "application/json"
+      }
+    })
+  }
+
   const [selectedSlot, setSelectedSlot] = useState('');
   const [hours, setHours] = useState(1);
   const [date, setDate] = useState('');
@@ -94,7 +103,8 @@ export default function FacilityDetailPage({params}) {
       })
       const result = await res.json();
       if (result.status == 200) {
-        toast.success("Your booking place successfully.")
+        toast.success("Your booking place successfully.");
+        updateBooking();
       }
     }
     catch{

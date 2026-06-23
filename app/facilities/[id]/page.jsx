@@ -53,7 +53,6 @@ export default function FacilityDetailPage({params}) {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${id}`);
         const {data} = await res.json();
-        console.log(data)
         setFULL_FACILITY(data);
       } catch (error) {
         console.error("Failed to fetch facility:", error);

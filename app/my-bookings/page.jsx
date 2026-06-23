@@ -253,7 +253,7 @@ export default function MyBookingsPage() {
   const [bookings, setBookings] = useState(BOOKINGS);
 
   const updateBooking = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_dec_booking/${id}/${-1}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_dec_booking/${deleteTarget.id}/${-1}`, {
       method: "PATCH",
       headers: {
         'content-type': "application/json"

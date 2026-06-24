@@ -231,7 +231,7 @@ export default function MyBookingsPage() {
     async function getBookings() {
       try {
         setIsLoading(true);
-        const { data:tokenData, error } = await authClient.token()
+        const { data: tokenData, error } = await authClient.token()
         const token = tokenData?.token
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${session?.user?.email}`, {
           headers: {
@@ -258,10 +258,8 @@ export default function MyBookingsPage() {
   }, [session?.user?.email])
   const [bookings, setBookings] = useState(BOOKINGS);
 
-  const updateBooking = async () => {
-    const { data:tokenData, error } = await authClient.token()
-    const token = tokenData?.token
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_dec_booking/${deleteTarget.id}/${-1}`, {
+  const updateBooking = async (booking_id, token) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_dec_booking/${booking_id}/${-1}`, {
       method: "PATCH",
       headers: {
         'content-type': "application/json",
@@ -271,9 +269,15 @@ export default function MyBookingsPage() {
   }
 
   const confirmDelete = async () => {
+    if (!deleteTarget.id) {
+      return toast.error("Something went wrong. Booking can't be canceled.")
+    }
     try {
-      const { data:tokenData, error } = await authClient.token()
+      const { data: tokenData, error } = await authClient.token()
       const token = tokenData?.token
+      if (!token) {
+        return toast.error("You are not authorized to cancel this booking.")
+      }
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/cancel/${deleteTarget.id}`, {
         method: "DELETE",
         headers: {
@@ -284,14 +288,18 @@ export default function MyBookingsPage() {
       const { data } = await res.json();
       if (data.deletedCount > 0) {
         toast.success("Booking canceled successfully.");
-        updateBooking();
-        window.location.reload();
+        await updateBooking(deleteTarget.id, token);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
     }
     catch {
-      toast.error("Something wrong. Booking can't be canceled.")
+      toast.error("Something went wrong. Booking can't be canceled.")
     }
-    setDeleteTarget(null);
+    finally{
+      setDeleteTarget(null);
+    }
   };
 
   const [filter, setFilter] = useState('All');

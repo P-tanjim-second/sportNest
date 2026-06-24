@@ -21,7 +21,7 @@ function LineArt({ facility_type }) {
     Tennis: <><rect x="18" y="10" width="164" height="140" {...s} /><line x1="18" y1="80" x2="182" y2="80" {...s} /><rect x="44" y="10" width="112" height="140" {...s} /></>,
     Basketball: <><path d="M28 155 A88 88 0 0 1 172 155" {...s} /><circle cx="100" cy="105" r="22" {...s} /></>,
     Cricket: <><rect x="74" y="14" width="52" height="132" {...s} /><line x1="74" y1="38" x2="126" y2="38" {...s} /><line x1="74" y1="122" x2="126" y2="122" {...s} /></>,
-    Vollyball: <><circle cx="100" cy="80" r="50" {...s} />
+    Volleyball: <><circle cx="100" cy="80" r="50" {...s} />
       <path d="M56 34 Q100 80 144 126" {...s} />
       <path d="M144 34 Q100 80 56 126" {...s} />
       <line x1="50" y1="80" x2="150" y2="80" {...s} /></>,

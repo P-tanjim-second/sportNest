@@ -1,89 +1,71 @@
-# SportNest 🎟️
-**Your All-Access Pass to Play** — Sports facility booking platform built with Next.js 15.
+# SportNest
 
-## Quick Start
+A sports facility booking platform that connects users with available sports facilities in their area.
+
+## Purpose
+
+SportNest makes it easy to find and book sports facilities. Whether you're looking to play badminton, tennis, football, or any other sport, our platform lets you browse available facilities, check real-time availability, and make instant bookings. For facility owners, we provide a simple dashboard to manage their sports facilities and bookings.
+
+## Live URL
+
+https://sport-nest-two.vercel.app
+
+## Features
+
+- Browse and search sports facilities by sport type and location
+- Real-time availability checking and booking system
+- User authentication with secure login and registration
+- Personal booking history and management
+- Facility owner dashboard for managing sports facilities
+- Add new facilities with pricing and schedule management
+- Responsive design that works on all devices
+- Smooth animations and modern UI
+
+## NPM Packages Used
+
+- **Next.js** (16.2.9) - React framework for building the application
+- **React** (19.2.7) - JavaScript library for UI components
+- **React DOM** (19.2.7) - React package for working with the DOM
+- **MongoDB** (7.3.0) - Database for storing facilities and bookings
+- **Better Auth** (1.6.20) - Authentication system for user login/register
+- **Better Auth Mongo Adapter** (1.6.20) - MongoDB integration for Better Auth
+- **Framer Motion** (12.40.0) - Animation library for smooth transitions
+- **Lucide React** (0.400.0) - Icon library for UI elements
+- **React Hot Toast** (2.6.0) - Notification system for user feedback
+- **Tailwind CSS** (3.4.4) - CSS framework for styling
+- **PostCSS** (8.4.38) - CSS processing tool
+- **Autoprefixer** (10.4.19) - Automatically adds browser-specific CSS prefixes
+- **ESLint** (9.39.4) - Code quality and linting tool
+
+## Getting Started
+
+### Installation
 
 ```bash
-# 1. Install dependencies
 npm install
-
-# 2. Run the dev server
-npm run dev
-
-# 3. Open in browser
-# http://localhost:3000
 ```
 
-## Project Structure
-
-```
-sportnest/
-├── app/
-│   ├── globals.css              ← Design tokens + animations
-│   ├── layout.jsx               ← Root layout (fonts, Navbar)
-│   ├── page.jsx                 ← Home page
-│   ├── login/page.jsx
-│   ├── register/page.jsx
-│   ├── facilities/
-│   │   ├── page.jsx             ← All facilities + search/filter
-│   │   └── [id]/page.jsx        ← Facility detail + booking form
-│   ├── my-bookings/page.jsx
-│   ├── add-facility/page.jsx
-│   ├── manage-facilities/page.jsx
-│   └── not-found.jsx            ← Custom 404
-├── components/
-│   ├── Navbar.jsx
-│   ├── Hero.jsx
-│   ├── FeaturedFacilities.jsx
-│   ├── HowItWorks.jsx
-│   ├── SportCategories.jsx
-│   ├── Testimonials.jsx
-│   └── Footer.jsx
-├── package.json
-├── tailwind.config.js
-├── next.config.js
-└── postcss.config.js
-```
-
-## Design System
-
-All tokens live in `app/globals.css`. Reference them anywhere via CSS variables:
-
-| Variable | Value | Usage |
-|---|---|---|
-| `--color-pine` | `#16332A` | Primary brand color |
-| `--color-court` | `#D4E157` | Accent (tennis-ball yellow) |
-| `--color-clay` | `#C2502E` | Live/active cues |
-| `--color-paper` | `#F1F2EA` | Page background |
-| `--font-display` | Instrument Serif | All headings |
-| `--font-body` | Hanken Grotesk | Body text |
-| `--font-mono` | Space Mono | Prices, times, codes |
-
-## Adding Authentication
-
-This project uses static UI — wire in **Better Auth** for real auth:
+### Running Development Server
 
 ```bash
-npm install better-auth
+npm run dev
 ```
 
-Replace the login/register form `button onClick` handlers with your auth calls. All private route pages are already marked with `Private Route` labels.
+Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-## Environment Variables
+### Building for Production
 
-Create a `.env.local` file:
+```bash
+npm run build
+npm start
+```
 
-```env
+## Environment Setup
+
+Create a `.env.local` file with the following variables:
+
+```
 MONGODB_URI=your_mongodb_connection_string
 BETTER_AUTH_SECRET=your_secret_key
 BETTER_AUTH_URL=http://localhost:3000
-NEXT_PUBLIC_IMGBB_KEY=your_imgbb_api_key
 ```
-
-## Tech Stack
-
-- **Next.js 15** (App Router)
-- **React 18**
-- **Tailwind CSS 3**
-- **Lucide React** (icons)
-- **Instrument Serif + Hanken Grotesk + Space Mono** (Google Fonts)

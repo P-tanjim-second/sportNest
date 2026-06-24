@@ -48,7 +48,13 @@ export default function ManageFacilitiesPage() {
     async function getMyFacilities() {
       setLoading(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-facilities/${email}`);
+        const { data: tokenData, error } = await authClient.token()
+        const token = tokenData?.token
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-facilities/${email}`, {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        });
         const { data } = await res.json();
         setFacilities(data);
       } catch {
@@ -62,10 +68,13 @@ export default function ManageFacilitiesPage() {
 
   const confirmDelete = async () => {
     try {
+      const { data: tokenData, error } = await authClient.token()
+      const token = tokenData?.token
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my_facility/delete/${deleteTarget._id}`, {
         method: "DELETE",
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          authorization: `Bearer ${token}`
         }
       })
       const data = await res.json();
@@ -81,21 +90,24 @@ export default function ManageFacilitiesPage() {
   };
 
   const handleEdit = async (data) => {
-    try{
+    try {
+      const { data: tokenData, error } = await authClient.token()
+      const token = tokenData?.token
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my_facility/edit/${data.id}`, {
         method: "PATCH",
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          authorization: `Bearer ${token}`
         },
         body: JSON.stringify(data)
       })
       const result = await res.json();
-      if(result.status == 200){
+      if (result.status == 200) {
         toast.success("Facility Updated Successfully");
         window.location.reload();
       }
     }
-    catch{
+    catch {
       toast.error("Something wrong. Facility can't be update.")
     }
   }
@@ -105,9 +117,9 @@ export default function ManageFacilitiesPage() {
       <AnimatePresence>
         {isEditOpen && (
           <motion.div
-            initial={{ opacity: 0,}}
+            initial={{ opacity: 0, }}
             animate={{ opacity: 1, }}
-            exit={{ opacity: 0,}}
+            exit={{ opacity: 0, }}
             transition={{
               type: 'spring',
               stiffness: 400,

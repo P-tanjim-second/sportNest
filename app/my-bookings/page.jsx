@@ -231,7 +231,13 @@ export default function MyBookingsPage() {
     async function getBookings() {
       try {
         setIsLoading(true);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${session?.user?.email}`);
+        const { data:tokenData, error } = await authClient.token()
+        const token = tokenData?.token
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${session?.user?.email}`, {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        });
         const { data } = await res.json();
         const bookings = data.map(booking => {
           return {
@@ -253,20 +259,26 @@ export default function MyBookingsPage() {
   const [bookings, setBookings] = useState(BOOKINGS);
 
   const updateBooking = async () => {
+    const { data:tokenData, error } = await authClient.token()
+    const token = tokenData?.token
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_dec_booking/${deleteTarget.id}/${-1}`, {
       method: "PATCH",
       headers: {
-        'content-type': "application/json"
+        'content-type': "application/json",
+        authorization: `Bearer ${token}`
       }
     })
   }
 
   const confirmDelete = async () => {
     try {
+      const { data:tokenData, error } = await authClient.token()
+      const token = tokenData?.token
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/cancel/${deleteTarget.id}`, {
         method: "DELETE",
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          authorization: `Bearer ${token}`
         }
       })
       const { data } = await res.json();

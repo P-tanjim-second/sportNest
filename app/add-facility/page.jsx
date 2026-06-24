@@ -94,10 +94,16 @@ export default function AddFacilityPage() {
     };
     console.log(facility)
 
+    const { data:tokenData, error } = await authClient.token()
+    const token = tokenData?.token
+    console.log(token)
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/add_facility`, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${token}`
+        },
         body: JSON.stringify(facility),
       });
       const result = await res.json();

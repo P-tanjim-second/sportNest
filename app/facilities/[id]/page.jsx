@@ -43,7 +43,13 @@ function LineArt({ facility_type }) {
 }
 
 async function isUserBooked(session, id, setIsBooked) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${session?.user?.email}/${id}`);
+  const { data:tokenData, error } = await authClient.token()
+  const token = tokenData?.token
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${session?.user?.email}/${id}`, {
+    headers: {
+      authorization: `Bearer ${token}`
+    }
+  });
   const { data } = await res.json();
   console.log(data)
   if (data.length > 0) {
@@ -63,9 +69,15 @@ export default function FacilityDetailPage({ params }) {
 
   useEffect(() => {
     async function getFacility() {
+      const { data: tokenData, error } = await authClient.token()
+      const token = tokenData?.token
       if (id) {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${id}`);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${id}`, {
+            headers: {
+              authorization: `Bearer ${token}`
+            }
+          });
           const { data } = await res.json();
           setFULL_FACILITY(data);
         } catch (error) {
@@ -80,10 +92,13 @@ export default function FacilityDetailPage({ params }) {
   }, []);
 
   const updateBooking = async () => {
+    const { data: tokenData, error } = await authClient.token()
+    const token = tokenData?.token
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/inc_dec_booking/${id}/${1}`, {
       method: "PATCH",
       headers: {
-        'content-type': "application/json"
+        'content-type': "application/json",
+        authorization: `Bearer ${token}`
       }
     })
   }
@@ -110,10 +125,14 @@ export default function FacilityDetailPage({ params }) {
       }
       console.log(Data)
       try {
+        const { data: tokenData, error } = await authClient.token()
+        const token = tokenData?.token
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
           method: "POST",
           headers: {
-            'content-type': "application/json"
+            'content-type': "application/json",
+            authorization: `Bearer ${token}`
           },
           body: JSON.stringify(Data)
         })
